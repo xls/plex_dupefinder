@@ -221,7 +221,7 @@ def write_decision(title=None, keeping=None, removed=None):
     if removed:
         lines.append('\tRemoving : %r\n' % removed)
 
-    with open(decision_filename, 'a') as fp:
+    with open(decision_filename, 'a', encoding='utf-8') as fp:
         fp.writelines(lines)
     return
 
@@ -348,8 +348,10 @@ if __name__ == "__main__":
         # loop returned duplicates
         for item in dupes:
             if item.type == 'episode':
+                parent_index = item.parentIndex if item.parentIndex is not None else 0
+                episode_index = item.index if item.index is not None else 0
                 title = "%s - %02dx%02d - %s" % (
-                    item.grandparentTitle, int(item.parentIndex), int(item.index), item.title)
+                    item.grandparentTitle, int(parent_index), int(episode_index), item.title)
             elif item.type == 'movie':
                 title = item.title
             else:
